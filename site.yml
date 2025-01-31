@@ -5,7 +5,9 @@
   remote_user: "{{ new_admin_user }}"
   roles:
     - ssh
+    - node_exporter
     - cloudflare
     - letsencrypt
     - nginx
     - portfolio
+    - nginx_exporter

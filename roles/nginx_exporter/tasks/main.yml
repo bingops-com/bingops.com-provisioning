@@ -1,0 +1,40 @@
+---
+
+- name: Ensure required packages are installed
+  ansible.builtin.apt:
+    name: curl
+    state: present
+
+- name: Download NGINX Exporter
+  ansible.builtin.get_url:
+    url: "https://github.com/nginx/nginx-prometheus-exporter/releases/download/v{{ nginx_exporter_version }}/nginx-prometheus-exporter_{{ nginx_exporter_version }}_linux_amd64.tar.gz"
+    dest: "/tmp/nginx_exporter.tar.gz"
+
+- name: Extract NGINX Exporter tarball
+  ansible.builtin.unarchive:
+    src: "/tmp/nginx_exporter.tar.gz"
+    dest: "/tmp"
+    remote_src: yes
+
+- name: Copy NGINX Exporter binary
+  ansible.builtin.copy:
+    src: "/tmp/nginx-prometheus-exporter"
+    dest: "/usr/local/bin/"
+    mode: "0755"
+    remote_src: true
+
+- name: Create systemd service file
+  ansible.builtin.template:
+    src: nginx_exporter.service.j2
+    dest: /etc/systemd/system/nginx_exporter.service
+  notify: Restart nginx_exporter
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: Start and enable nginx_exporter service
+  ansible.builtin.systemd:
+    name: nginx_exporter
+    state: started
+    enabled: yes

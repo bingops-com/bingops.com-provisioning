@@ -1,0 +1,6 @@
+---
+
+- name: Restart nginx_exporter
+  systemd:
+    name: nginx_exporter
+    state: restarted
