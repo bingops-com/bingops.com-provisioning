@@ -1,10 +1,10 @@
 [Unit]
-Description=NGINX Prometheus Exporter
+Description=NGINX Prometheus Exporter for {{ item.name }}
 After=network.target
 
 [Service]
 User=root
-ExecStart=/usr/local/bin/nginx-prometheus-exporter --nginx.scrape-uri={{ nginx_scrape_uri }} --web.listen-address=:{{ nginx_exporter_port }}
+ExecStart=/usr/local/bin/nginx-prometheus-exporter --nginx.scrape-uri={{ item.scrape_uri }} --web.listen-address=:{{ item.port }}
 Restart=always
 
 [Install]

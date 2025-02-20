@@ -2,5 +2,6 @@
 
 - name: Restart nginx_exporter
   systemd:
-    name: nginx_exporter
+    name: "nginx_exporter_{{ item.name }}"
     state: restarted
+  loop: "{{ nginx_exporters }}"
