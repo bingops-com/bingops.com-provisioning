@@ -1,0 +1,8 @@
+---
+
+blog_dns: "blog.{{ domain }}"
+blog_hugo_version: "v0.144.2"
+
+blog_repo_url: "https://github.com/bingops-com/blog.bingops.com.git"
+blog_clone_path: "/srv/blog"
+blog_branch: "master"

@@ -1,0 +1,29 @@
+---
+
+- name: Clone React app from GitHub
+  ansible.builtin.git:
+    repo: "{{ blog_repo_url }}"
+    dest: "{{ blog_clone_path }}"
+    version: "{{ blog_branch }}"
+    clone: yes
+    update: yes
+    force: yes
+
+- name: Install nvm
+  ansible.builtin.shell: "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash"
+
+- name: Run build
+  ansible.builtin.shell: |
+    source $HOME/.nvm/nvm.sh
+    nvm install v20.17.0
+    npm install
+    npm run build
+  args:
+    chdir: "{{ blog_clone_path }}"
+    executable: /bin/bash
+
+- name: Copy Build to Nginx directory
+  ansible.builtin.copy:
+    src: "{{ blog_clone_path }}/dist/"
+    dest: "/var/www/html/blog.bingops.com/"
+    remote_src: true

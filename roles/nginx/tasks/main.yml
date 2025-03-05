@@ -1,14 +1,29 @@
 ---
 
-- name: Install nginx
-  ansible.builtin.apt:
-    name: nginx
-    state: present
-    update_cache: yes
+- name: Check if domains variable is empty
+  block:
+    - name: Install certbot with nginx plugin
+      apt:
+        name:
+          - nginx
+        state: present
+        update_cache: yes
 
-- name: Enable default Nginx reverse proxy
-  ansible.builtin.template:
-    src: default.conf.j2
-    dest: "/etc/nginx/sites-enabled/default"
-    mode: "0644"
-  notify: reload nginx
+    - name: Loop through subdomains and enable reverse proxy
+      template:
+        src: "{{ item.sub | lower | replace(' ', '_') }}.conf.j2"
+        dest: "/etc/nginx/sites-available/{{ item.dns }}"
+        mode: "0644"
+      with_items:
+       - "{{ subdomains }}"
+
+    - name: Create symlink for enabled sites
+      file:
+        src: "/etc/nginx/sites-available/{{ item.dns }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.dns }}"
+        state: link
+      with_items:
+        - "{{ subdomains }}"
+      notify: Restart NGINX
+
+  when: domain != ""

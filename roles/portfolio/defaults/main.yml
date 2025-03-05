@@ -1,6 +1,7 @@
 ---
 
 portfolio_repo_url: "https://github.com/Oslonline/bingo-portfolio.git"
+portfolio_clone_path: "/srv/portfolio"
 portfolio_branch: "main"
 
 portfolio_emailjs_service_id: "Gmail_portfolio"
