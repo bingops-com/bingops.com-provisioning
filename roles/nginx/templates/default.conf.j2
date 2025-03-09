@@ -25,3 +25,14 @@ server {
         try_files $uri $uri/ =404;
     }
 }
+
+server {
+    listen 127.0.0.1:8080;
+    server_name localhost;
+
+    location /stub_status {
+        stub_status;
+        allow 127.0.0.1;
+        deny all;
+    }
+}

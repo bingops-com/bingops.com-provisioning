@@ -1,0 +1,11 @@
+---
+
+nginx_exporter_version: "1.4.1"
+
+nginx_exporters:
+  - name: "www_bingops"
+    scrape_uri: "http://127.0.0.1:8080/nginx_status"
+    port: 9113
+  - name: "blog_bingops"
+    scrape_uri: "http://127.0.0.1:8081/nginx_status"
+    port: 9114
