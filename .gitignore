@@ -5,3 +5,6 @@
 .terraform*
 terraform.tfstate*
 credentials.auto.tfvars
+
+# Ansible
+group_vars/web-servers.yml

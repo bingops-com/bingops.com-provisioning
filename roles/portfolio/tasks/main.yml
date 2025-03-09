@@ -33,13 +33,13 @@
 - name: Copy Build to Nginx directory
   ansible.builtin.copy:
     src: "{{ portfolio_clone_path }}/dist/"
-    dest: "/var/www/html/"
+    dest: "/var/www/html/www.bingops.com/"
     remote_src: true
 
 - name: Deploy robots.txt
   ansible.builtin.template:
     src: "robots.txt.j2"
-    dest: "/var/www/html/robots.txt"
+    dest: "/var/www/html/www.bingops.com/robots.txt"
     owner: "{{ new_admin_user }}"
     group: "{{ new_admin_user }}"
     mode: "0644"

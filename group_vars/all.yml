@@ -3,4 +3,11 @@
 new_admin_user: "bingo"
 
 domain: "bingops.com"
-portfolio_clone_path: "/srv/portfolio"
+
+subdomains:
+  - name: Portfolio domain
+    sub: "www"
+    dns: "www.{{ domain }}"
+  - name: Blog
+    sub: "blog"
+    dns: "blog.{{ domain }}"

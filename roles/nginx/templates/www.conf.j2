@@ -1,0 +1,20 @@
+server {
+    listen 8081;
+    server_name {{ domain }} www.{{ domain }};
+
+    access_log /var/log/nginx/www_bingops_access.log;
+    error_log /var/log/nginx/www_bingops_error.log;
+
+    root /var/www/html/www.bingops.com/;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /stub_status {
+        stub_status;
+        allow 127.0.0.1;
+        deny all;
+    }
+}
